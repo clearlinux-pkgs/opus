@@ -4,7 +4,7 @@
 #
 Name     : opus
 Version  : 1.3.1
-Release  : 28
+Release  : 29
 URL      : http://downloads.xiph.org/releases/opus/opus-1.3.1.tar.gz
 Source0  : http://downloads.xiph.org/releases/opus/opus-1.3.1.tar.gz
 Summary  : Opus IETF audio codec (@PC_BUILD@ build)
@@ -67,7 +67,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1656437239
+export SOURCE_DATE_EPOCH=1656449995
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
 export FCFLAGS="$FFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
@@ -96,7 +96,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1656437239
+export SOURCE_DATE_EPOCH=1656449995
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opus
 cp %{_builddir}/opus-1.3.1/COPYING %{buildroot}/usr/share/package-licenses/opus/dfada97ba32cb44804736a7768104a06be91a4f7
