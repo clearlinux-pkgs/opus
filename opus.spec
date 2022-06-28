@@ -4,13 +4,12 @@
 #
 Name     : opus
 Version  : 1.3.1
-Release  : 27
+Release  : 28
 URL      : http://downloads.xiph.org/releases/opus/opus-1.3.1.tar.gz
 Source0  : http://downloads.xiph.org/releases/opus/opus-1.3.1.tar.gz
 Summary  : Opus IETF audio codec (@PC_BUILD@ build)
 Group    : Development/Tools
 License  : BSD-3-Clause
-Requires: opus-filemap = %{version}-%{release}
 Requires: opus-lib = %{version}-%{release}
 Requires: opus-license = %{version}-%{release}
 BuildRequires : doxygen
@@ -39,19 +38,10 @@ Group: Documentation
 doc components for the opus package.
 
 
-%package filemap
-Summary: filemap components for the opus package.
-Group: Default
-
-%description filemap
-filemap components for the opus package.
-
-
 %package lib
 Summary: lib components for the opus package.
 Group: Libraries
 Requires: opus-license = %{version}-%{release}
-Requires: opus-filemap = %{version}-%{release}
 
 %description lib
 lib components for the opus package.
@@ -77,20 +67,20 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1633818048
+export SOURCE_DATE_EPOCH=1656437239
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
-export FCFLAGS="$FFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
-export FFLAGS="$FFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
-export CXXFLAGS="$CXXFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+export CFLAGS="$CFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
 %configure --disable-static --enable-intrinsics --enable-float-approx
 make  %{?_smp_mflags}
 
 unset PKG_CONFIG_PATH
 pushd ../buildavx2/
-export CFLAGS="$CFLAGS -m64 -march=x86-64-v3"
-export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3"
-export FFLAGS="$FFLAGS -m64 -march=x86-64-v3"
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
 export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
 export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 %configure --disable-static --enable-intrinsics --enable-float-approx
@@ -106,15 +96,15 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1633818048
+export SOURCE_DATE_EPOCH=1656437239
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opus
 cp %{_builddir}/opus-1.3.1/COPYING %{buildroot}/usr/share/package-licenses/opus/dfada97ba32cb44804736a7768104a06be91a4f7
 pushd ../buildavx2/
 %make_install_v3
-/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 popd
 %make_install
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -126,6 +116,7 @@ popd
 /usr/include/opus/opus_multistream.h
 /usr/include/opus/opus_projection.h
 /usr/include/opus/opus_types.h
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopus.so
 /usr/lib64/libopus.so
 /usr/lib64/pkgconfig/opus.pc
 /usr/share/aclocal/*.m4
@@ -150,15 +141,12 @@ popd
 %defattr(0644,root,root,0755)
 %doc /usr/share/doc/opus/*
 
-%files filemap
-%defattr(-,root,root,-)
-/usr/share/clear/filemap/filemap-opus
-
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopus.so.0
+/usr/lib64/glibc-hwcaps/x86-64-v3/libopus.so.0.8.0
 /usr/lib64/libopus.so.0
 /usr/lib64/libopus.so.0.8.0
-/usr/share/clear/optimized-elf/lib*
 
 %files license
 %defattr(0644,root,root,0755)
