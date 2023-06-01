@@ -5,7 +5,7 @@
 #
 Name     : opus
 Version  : 1.3.1
-Release  : 36
+Release  : 37
 URL      : http://downloads.xiph.org/releases/opus/opus-1.3.1.tar.gz
 Source0  : http://downloads.xiph.org/releases/opus/opus-1.3.1.tar.gz
 Summary  : Opus IETF audio codec (@PC_BUILD@ build)
@@ -99,7 +99,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1683072701
+export SOURCE_DATE_EPOCH=1685580336
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -Ofast -falign-functions=32 -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 export FCFLAGS="$FFLAGS -Ofast -falign-functions=32 -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
@@ -139,7 +139,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1683072701
+export SOURCE_DATE_EPOCH=1685580336
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/opus
 cp %{_builddir}/opus-%{version}/COPYING %{buildroot}/usr/share/package-licenses/opus/dfada97ba32cb44804736a7768104a06be91a4f7 || :
@@ -169,7 +169,6 @@ popd
 
 %files dev
 %defattr(-,root,root,-)
-/V3/usr/lib64/libopus.so
 /usr/include/opus/opus.h
 /usr/include/opus/opus_defines.h
 /usr/include/opus/opus_multistream.h
@@ -207,7 +206,6 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
-/V3/usr/lib64/libopus.so.0
 /V3/usr/lib64/libopus.so.0.8.0
 /usr/lib64/libopus.so.0
 /usr/lib64/libopus.so.0.8.0
